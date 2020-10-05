@@ -18,13 +18,18 @@ Route::group([
 ], function () {
     Route::group(['namespace' => 'App\Http\Controllers\Dashboard', 'middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::get('/', 'DashboardController@index')->name('admin.dashboard');
-        #Settings
+        Route::get('logout','LoginController@logout') -> name('admin.logout');
+
+        #Star Settings
         Route::group(['prefix' => 'settings'], function () {
             Route::get('shipping-methods/{type}', 'SettingsController@editShippingMethods')->name('edit.shippings.methods');
             Route::put('shipping-methods/{id}', 'SettingsController@updateShippingMethods')->name('update.shippings.methods');
         });
-
-#end Settings
+        #end Settings
+        Route::group(['prefix' => 'profile'], function () {
+            Route::get('edit', 'ProfileController@editProfile')->name('edit.profile');
+            Route::put('update', 'ProfileController@updateprofile')->name('update.profile');
+        });
 
     });
 
