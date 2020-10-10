@@ -51,7 +51,29 @@ Route::group([
             Route::get('delete/{id}','BrandsController@destroy') -> name('admin.brands.delete');
         });
         ################################## end brands    #######################################
+
+        ################################## Tags routes ######################################
+        Route::group(['prefix' => 'tags'], function () {
+            Route::get('/','TagsController@index') -> name('admin.tags');
+            Route::get('create','TagsController@create') -> name('admin.tags.create');
+            Route::post('store','TagsController@store') -> name('admin.tags.store');
+            Route::get('edit/{id}','TagsController@edit') -> name('admin.tags.edit');
+            Route::post('update/{id}','TagsController@update') -> name('admin.tags.update');
+            Route::get('delete/{id}','TagsController@destroy') -> name('admin.tags.delete');
+        });
+        ################################## end Tags    #######################################
+
+        ################################## products routes ######################################
+        Route::group(['prefix' => 'products'], function () {
+            Route::get('/','ProductsController@index') -> name('admin.products');
+            Route::get('general-information','ProductsController@create') -> name('admin.products.general.create');
+            Route::post('store-general-information','ProductsController@store') -> name('admin.products.general.store');
+
+
+        });
+        ################################## end brands    #######################################
     });
+
 
     Route::group(['namespace' => 'App\Http\Controllers\Dashboard', 'middleware' => 'guest:admin', 'prefix' => 'admin'], function () {
 
