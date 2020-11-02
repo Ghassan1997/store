@@ -90,6 +90,9 @@ class Product extends Model
         return  $this -> is_active  == 0 ?  'غير مفعل'   : 'مفعل' ;
     }
 
+public function scopeActive($q){
+        return $q->where('is_active',1);
+}
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'product_categories');
@@ -101,5 +104,8 @@ class Product extends Model
     {
         return $this->belongsToMany(Tag::class, 'product_tags');
     }
-
+    public function options()
+    {
+        return $this->hasMany(Option::class,'product_id');
+    }
 }

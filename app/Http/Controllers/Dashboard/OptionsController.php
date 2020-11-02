@@ -4,67 +4,62 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GeneralProductRequest;
+use App\Http\Requests\OptionsRequest;
 use App\Http\Requests\ProductImagesRequest;
 use App\Http\Requests\ProductPriceValidation;
 use App\Http\Requests\ProductStockRequest;
+use App\Models\Attribute;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Image;
+use App\Models\Option;
 use App\Models\Product;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class ProductsController extends Controller
+class OptionsController extends Controller
 {
     public function index()
     {
-        $products = Product::select('id','slug','price', 'created_at')->paginate(PAGINATION_COUNT);
-        return view('dashboard.products.general.index', compact('products'));
+        $options = Option::with(['product' => function ($prod) {
+            $prod->select('id');
+        }, 'attribute' => function ($attr) {
+            $attr->select('id');
+        }])->select('id', 'product_id', 'attribute_id', 'price')->paginate(PAGINATION_COUNT);
+
+        return  view('dashboard.options.index', compact('options'));
     }
     public function create()
     {
         $data = [];
-        $data['brands'] = Brand::active()->select('id')->get();
-        $data['tags'] = Tag::select('id')->get();
-        $data['categories'] = Category::active()->select('id')->get();
+        $data['products'] = Product::active()->select('id')->get();
+          $data['attributes'] = Attribute::select('id')->get();
+
+        return view('dashboard.options.create', $data);
 
 
         return view('dashboard.products.general.create', $data);
     }
-    public function store(GeneralProductRequest $request)
+    public function store(OptionsRequest $request)
     {
 
 
-    DB::beginTransaction();
 
-    //validation
+        DB::beginTransaction();
 
-if (!$request->has('is_active'))
-$request->request->add(['is_active' => 0]);
-else
-$request->request->add(['is_active' => 1]);
+        //validation
+        $option = Option::create([
+            'attribute_id' => $request->attribute_id,
+            'product_id' => $request->product_id,
+            'price' => $request->price,
+        ]);
+        //save translations
+        $option->name = $request->name;
+        $option->save();
+        DB::commit();
 
-$product = Product::create([
-'slug' => $request->slug,
-'brand_id' => $request->brand_id,
-'is_active' => $request->is_active,
-]);
-    //save translations
-$product->name = $request->name;
-$product->description = $request->description;
-$product->short_description = $request->short_description;
-$product->save();
-
-    //save product categories
-
-$product->categories()->attach($request->categories);
-        $product->tags()->attach($request->tags);
-
-    //save product tags
-
-DB::commit();
-return redirect()->route('admin.products.price',$product->id)->with(['success' => 'تم ألاضافة بنجاح']);
+        return redirect()->route('admin.options')->with(['success' => 'تم ألاضافة بنجاح']);
 
 
 }

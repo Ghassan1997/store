@@ -2,6 +2,62 @@
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="{{ app() -> getLocale() === 'ar' ? 'rtl' : 'ltr'}}">
 <head>
+<style>
+    /* Latest compiled and minified CSS included as External Resource*/
+
+    /* Optional theme */
+
+    /*@import url('//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css');*/
+    body {
+        margin-top:30px;
+    }
+    .stepwizard-step p {
+        margin-top: 0px;
+        color:#666;
+    }
+    .stepwizard-row {
+        display: table-row;
+    }
+    .stepwizard {
+        display: table;
+        width: 50%;
+        margin: 0 auto;
+        position: relative;
+    }
+    .stepwizard-step button[disabled] {
+        /*opacity: 1 !important;
+        filter: alpha(opacity=100) !important;*/
+    }
+    .stepwizard .btn.disabled, .stepwizard .btn[disabled], .stepwizard fieldset[disabled] .btn {
+        opacity:1 !important;
+        color:#bbb;
+    }
+    .stepwizard-row:before {
+        top: 14px;
+        bottom: 0;
+        position: absolute;
+        content:" ";
+        width: 100%;
+        height: 1px;
+        background-color: #ccc;
+        z-index: 0;
+    }
+    .stepwizard-step {
+        display: table-cell;
+        text-align: center;
+        position: relative;
+    }
+    .btn-circle {
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        padding: 6px 0;
+        font-size: 12px;
+        line-height: 1.428571429;
+        border-radius: 15px;
+    }
+    </style>
+
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
@@ -18,7 +74,6 @@
         rel="stylesheet">
     <link href="https://maxcdn.icons8.com/fonts/line-awesome/1.1/css/line-awesome.min.css"
           rel="stylesheet">
-
     <link rel="stylesheet" type="text/css" href="{{asset('assets/admin//plugins/animate/animate.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/'.getFolder().'/vendors.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/vendors/css/weather-icons/climacons.min.css')}}">
@@ -53,6 +108,17 @@
     <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/style.css')}}">
     <!-- END Custom CSS-->
     @notify_css
+
+    <link href="{{asset('assets/admin/dist/css/smart_wizard.min.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/admin/dist/css/smart_wizard_theme_circles.min.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/admin/dist/css/smart_wizard_theme_arrows.min.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/admin/dist/css/smart_wizard_theme_dots.min.css')}}" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/vendors/css/file-uploaders/dropzone.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css-rtl/plugins/file-uploaders/dropzone.css')}}">
+
+
+    <!-- Optional SmartWizard themes -->
     @yield('style')
     <link href="https://fonts.googleapis.com/css?family=Cairo&display=swap" rel="stylesheet">
     <style>
@@ -69,6 +135,7 @@
 @include('dashboard.includes.sidebar')
 
 @yield('content')
+
 <!-- ////////////////////////////////////////////////////////////////////////////-->
 @include('dashboard.includes.footer')
 
@@ -115,10 +182,12 @@
         type="text/javascript"></script>
 <script src="{{asset('assets/admin/js/scripts/extensions/date-time-dropper.js')}}" type="text/javascript"></script>
 <!-- END PAGE LEVEL JS-->
-
 <script src="{{asset('assets/admin/js/scripts/forms/checkbox-radio.js')}}" type="text/javascript"></script>
 
 <script src="{{asset('assets/admin/js/scripts/modal/components-modal.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/admin/dist/js/jquery.smartWizard.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/scripts/wizard/wizrad.js')}}"></script>
+<script src="{{asset('assets/admin/vendors/js/extensions/dropzone.min.js')}}" type="text/javascript"></script>
 
 <script>
     $('#meridians1').timeDropper({

@@ -5,10 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AttributeTranslation extends Model
+class Image extends Model
 {
     use HasFactory;
-    protected $fillable = ['name'];
+    protected $fillable = ['product_id','photo','created_at','updated_at'];
 
-    public  $timestamps = false;
 }

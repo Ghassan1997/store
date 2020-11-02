@@ -6,7 +6,7 @@ use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Brand extends Model
+class Attribute extends Model
 {
     use HasFactory;
     use Translatable;
@@ -23,16 +23,13 @@ class Brand extends Model
      *
      * @var array
      */
-    protected $fillable = ['is_active','photo'];
+    protected $guarded = [];
 
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = [
-        'is_active' => 'boolean',
-    ];
 
     /**
      * The attributes that are translatable.
@@ -41,18 +38,8 @@ class Brand extends Model
      */
     public $translatedAttributes = ['name'];
 
+public function option(){
+    return $this->hasMany(Option::class,'attribute_id');
+}
 
-
-    public function scopeActive($query){
-        return $query -> where('is_active',1) ;
-    }
-    public function getActive(){
-        return  $this -> is_active  == 0 ?  'غير مفعل'   : 'مفعل' ;
-    }
-
-
-
-    public function  getPhotoAttribute($val){
-        return ($val !== null) ? asset('assets/images/brands/' . $val) : "";
-    }
 }

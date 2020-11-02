@@ -10,9 +10,9 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="">الرئيسية </a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{route('admin.brands')}}">  ألماركات التجارية </a>
+                                <li class="breadcrumb-item"><a href="{{route('admin.options')}}"> options </a>
                                 </li>
-                                <li class="breadcrumb-item active">  أضافه ماركة تجارية
+                                <li class="breadcrumb-item active"> add options
                                 </li>
                             </ol>
                         </div>
@@ -26,7 +26,7 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title" id="basic-layout-form"> أضافه ماركة تجارية </h4>
+                                    <h4 class="card-title" id="basic-layout-form"> add options </h4>
                                     <a class="heading-elements-toggle"><i
                                             class="la la-ellipsis-v font-medium-3"></i></a>
                                     <div class="heading-elements">
@@ -43,25 +43,16 @@
                                 <div class="card-content collapse show">
                                     <div class="card-body">
                                         <form class="form"
-                                              action="{{route('admin.brands.store')}}"
+                                              action="{{route('admin.options.store')}}"
                                               method="POST"
                                               enctype="multipart/form-data">
                                             @csrf
 
-                                            <div class="form-group">
-                                                <label> صوره الماركة </label>
-                                                <label id="projectinput7" class="file center-block">
-                                                    <input type="file" id="file" name="photo">
-                                                    <span class="file-custom"></span>
-                                                </label>
-                                                @error('photo')
-                                                <span class="text-danger">{{$message}}</span>
-                                                @enderror
-                                            </div>
+
 
                                             <div class="form-body">
 
-                                                <h4 class="form-section"><i class="ft-home"></i> بيانات الماركة التجارية </h4>
+                                                <h4 class="form-section"><i class="ft-home"></i> options data </h4>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
@@ -77,38 +68,64 @@
                                                             @enderror
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group mt-1">
-                                                            <input type="checkbox" value="1"
-                                                                   name="is_active"
-                                                                   id="switcheryColor4"
-                                                                   class="switchery" data-color="success"
-                                                                   checked />
-                                                            <label for="switcheryColor4"
-                                                                   class="card-title ml-1">الحالة  </label>
 
-                                                            @error("is_active")
-                                                            <span class="text-danger">{{$message }}</span>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1">السعر
+                                                            </label>
+                                                            <input type="text" id="price"
+                                                                   class="form-control"
+                                                                   placeholder="  "
+                                                                   value="{{old('price')}}"
+                                                                   name="price">
+                                                            @error("price")
+                                                            <span class="text-danger">{{$message}}</span>
                                                             @enderror
                                                         </div>
                                                     </div>
 
-                                                    {{--     <div class="col-md-6">
-                                                              <div class="form-group">
-                                                                  <label for="projectinput1"> اسم بالرابط
-                                                                  </label>
-                                                                  <input type="text" id="name"
-                                                                         class="form-control"
-                                                                         placeholder="  "
-                                                                         value="{{old('slug')}}"
-                                                                         name="slug">
-                                                                  @error("slug")
-                                                                  <span class="text-danger">{{$message}}</span>
-                                                                  @enderror
-                                                              </div>
-                                                          </div>
-                                                          --}}
+                                                </div>
 
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1"> اختر ألمنتج
+                                                            </label>
+                                                            <select name="product_id" class="select2 form-control" >
+                                                                <optgroup label="من فضلك أختر المنتج ">
+                                                                    @if($products && $products -> count() > 0)
+                                                                        @foreach($products as $product)
+                                                                            <option
+                                                                                value="{{$product -> id }}">{{$product -> name}}</option>
+                                                                        @endforeach
+                                                                    @endif
+                                                                </optgroup>
+                                                            </select>
+                                                            @error('product_id')
+                                                            <span class="text-danger"> {{$message}}</span>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1"> اختر خاصيه
+                                                            </label>
+                                                            <select name="attribute_id" class="select2 form-control" >
+                                                                <optgroup label="من فضلك أختر قيمه">
+                                                                    @if($attributes && $attributes -> count() > 0)
+                                                                        @foreach($attributes as $attribute)
+                                                                            <option
+                                                                                value="{{$attribute -> id }}">{{$attribute -> name}}</option>
+                                                                        @endforeach
+                                                                    @endif
+                                                                </optgroup>
+                                                            </select>
+                                                            @error('attribute_id')
+                                                            <span class="text-danger"> {{$message}}</span>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
 
                                                 </div>
 
